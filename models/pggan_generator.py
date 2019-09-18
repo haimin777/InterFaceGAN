@@ -32,7 +32,10 @@ class PGGANGenerator(BaseGenerator):
 
   def load(self):
     self.logger.info(f'Loading pytorch model from `{self.model_path}`.')
-    self.model.load_state_dict(torch.load(self.model_path))
+    #self.model.load_state_dict(torch.load(self.model_path))
+    self.model.hub.load('facebookresearch/pytorch_GAN_zoo:hub',
+                       'PGAN', model_name='celebAHQ-512',
+                       pretrained=True, useGPU=use_gpu)
     self.logger.info(f'Successfully loaded!')
     self.lod = self.model.lod.to(self.cpu_device).tolist()
     self.logger.info(f'  `lod` of the loaded model is {self.lod}.')
